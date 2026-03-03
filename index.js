@@ -28,13 +28,32 @@ function getImportantTODO() {
             importantTODO.push(todo);
         }
     }
+<<<<<<< HEAD
     return importantTODO;
 }
 function countExclamations(str) {
     return (str.match('/!/g') || []).length;
+=======
+>>>>>>> 8671acd01ae19989d6228f977d21986e6fdc97a9
 }
+
+function getFromAuthor(author) {
+    for (let todo of TODOS) {
+        let splited = todo.split(';');
+        if (splited.length == 1) {
+            continue;
+        }
+        let currentAuthor = splited[0].replace(/.*TODO\s+/, "").trim();
+        if (currentAuthor.toLowerCase().startsWith(author.toLowerCase())) {
+            console.log(todo);
+        }
+    }
+}
+
 function processCommand(command) {
-    switch (command) {
+    const [cmd, ...args] = command.trim().split(" ");
+    const payload = args.join(" ");
+    switch (cmd) {
         case 'exit':
             process.exit(0);
             break;
@@ -58,6 +77,10 @@ function processCommand(command) {
             break;
         case 'sort user':
 
+            break;
+        case 'user':
+            const author = payload[0];
+            getFromAuthor(author);
             break;
         default:
             console.log('wrong command');
