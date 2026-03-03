@@ -22,12 +22,16 @@ function getAllTODO() {
     }
 }
 function getImportantTODO() {
+    let importantTODO = [];
     for (let todo of TODOS) {
         if (todo.indexOf("!") !== -1) {
-            console.log(todo)
+            importantTODO.push(todo);
         }
     }
-
+    return importantTODO;
+}
+function countExclamations(str) {
+    return (str.match('/!/g') || []).length;
 }
 function processCommand(command) {
     switch (command) {
@@ -38,7 +42,22 @@ function processCommand(command) {
             console.log(TODOS);
             break;
         case 'important':
-            getImportantTODO();
+            console.log(getImportantTODO());
+            break;
+        case "sort importance":
+            important = getImportantTODO();
+            important.sort((a, b) => countExclamations(b) - countExclamations(a));
+            for (const str of important) {
+                console.log(str);
+            }
+            for (const str of TODOS) {
+                if (!important.includes(str)) {
+                    console.log(str);
+                }
+            }
+            break;
+        case 'sort user':
+
             break;
         default:
             console.log('wrong command');
