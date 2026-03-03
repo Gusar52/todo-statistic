@@ -48,7 +48,6 @@ function processCommand(command) {
     switch (cmd) {
         case 'exit':
             process.exit(0);
-            break;
         case 'show':
             console.log(TODOS);
             break;
