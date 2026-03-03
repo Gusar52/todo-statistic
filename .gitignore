@@ -1,6 +1,6 @@
 # Logs
 logs
-.idea/
+.idea
 C:\Users\aaa94\WebstormProjects\todo-statistic\.idea\workspace.xml
 *.log
 npm-debug.log*
