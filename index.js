@@ -18,23 +18,17 @@ function getAllTODO() {
         for (let str of token){
             if (str.startsWith(' TODO')) {
                 TODOS.push(str);
-        }}
+            }}
     }
 }
 function getImportantTODO() {
-    let importantTODO = [];
+    let arr = []
     for (let todo of TODOS) {
         if (todo.indexOf("!") !== -1) {
-            importantTODO.push(todo);
+            arr.push(todo)
         }
     }
-<<<<<<< HEAD
-    return importantTODO;
-}
-function countExclamations(str) {
-    return (str.match('/!/g') || []).length;
-=======
->>>>>>> 8671acd01ae19989d6228f977d21986e6fdc97a9
+    return arr;
 }
 
 function getFromAuthor(author) {
@@ -49,7 +43,24 @@ function getFromAuthor(author) {
         }
     }
 }
-
+function getAllAuthor() {
+    let arr = [];
+    for (let todo of TODOS) {
+        let splited = todo.split(';');
+        if (splited.length == 1) {
+            continue;
+        }
+        arr.push(todo)
+    }
+    return arr;
+}
+function countExclamations(str) {
+    return (str.match('/!/g') || []).length;
+}
+function getDate(str){
+    date = str.split(';')
+    return new Date(date[1]);
+}
 function processCommand(command) {
     const [cmd, ...args] = command.trim().split(" ");
     const payload = args.join(" ");
@@ -62,25 +73,45 @@ function processCommand(command) {
         case 'important':
             console.log(getImportantTODO());
             break;
-        case "sort importance":
-            important = getImportantTODO();
-            important.sort((a, b) => countExclamations(b) - countExclamations(a));
-            for (const str of important) {
-                console.log(str);
-            }
-            for (const str of TODOS) {
-                if (!important.includes(str)) {
-                    console.log(str);
-                }
-            }
-            break;
-        case 'sort user':
-
-            break;
         case 'user':
             const author = payload[0];
             getFromAuthor(author);
             break;
+        case 'sort':
+            switch (payload) {
+                case 'importance':
+                    important = getImportantTODO();
+                    important.sort((a, b) => countExclamations(a) - countExclamations(b));
+                    for (const str of important) {
+                        console.log(str);
+                    }
+                    for (const str of TODOS) {
+                        if (!important.includes(str)) {
+                            console.log(str);
+                        }
+                    }
+                    break;
+                case 'user':
+                    users = getAllAuthor();
+                    for (const str of users) {
+                        console.log(str);
+                    }
+                    for (const str of TODOS) {
+                        if (!users.includes(str)) {
+                            console.log(str);
+                        }
+                    }
+                    break;
+                case 'date':
+                    dates = TODOS.sort((a, b) => getDate(b) - getDate(a));
+                    for (const str of dates) {
+                        console.log(str);
+                    }
+                    break;
+                default:
+                        break;
+                break
+            }
         default:
             console.log('wrong command');
             break;
